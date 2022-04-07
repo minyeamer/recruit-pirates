@@ -77,6 +77,7 @@ saramin_client {
         'expiration_date': 채용이 끝나는 날짜
         'dday': 채용 종료까지 남은 일자
         'close-type': 마감일 형식 (접수 마감일, 상시 등)
+        'jobkorea': 자소서
     }
 }
 
