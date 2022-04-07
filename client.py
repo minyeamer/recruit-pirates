@@ -26,7 +26,9 @@ class Client(Person):
 
         saramin_client = Saramin(requires)
         self.contents['saramin'] = saramin_client.get_content()
-        requires['companies'] = self.contents['saramin'].keys()
+
+        if not requires['companies']:
+            requires['companies'] = self.contents['saramin'].keys()
 
         if requires['assay']:
             jobkorea_client = Jobkorea(requires)
@@ -51,8 +53,11 @@ requires {
     'assay': 자기소개서 포함 여부 (True/False) -> 잡코리아 연결
     'skill': 기술 역량 포함 여부 (True/False) -> 원티드 연결
     'skill_map': 조건에 맞는 전체 기술 역량의 워드 클라우드 포함 여부 (True/False) -> 원티드 연결
-    'count': 보여줄 채용공고 개수 (기본값: 5, 최대값: 10)
+    'count': 보여줄 채용공고 개수 (기본값: 5, 최대값: 110)
     'code_map': 지역, 직업 파라미터 코드 딕셔너리
+    ('companies': 클라이언트가 지정한 특정 회사 목록,
+                  없을 경우 사람인 API에서 가져온 회사명 목록으로 대체,
+                  잡코리아 및 원티드에서 사용)
 }
 
 사람인 API 반환값 json을 정리한 딕셔너리
@@ -75,7 +80,4 @@ saramin_client {
     }
 }
 
-
-
 """
-
