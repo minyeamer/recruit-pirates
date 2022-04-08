@@ -5,6 +5,11 @@ from content import Content
 from admin import get_saramin_key
 
 
+"""
+사람인에서 채용공고 정보를 요청하고 결과를 저장하는 사람인 객체
+사람인 API에서 받은 JSON 응답을 재해석해 딕셔너리로 변환
+사람인 API 키는 개인정보 보호를 위해 숨김 처리, 필요 시 값 변경
+"""
 class Saramin(Content):
     def __init__(self, requires: dict):
         super().__init__(requires)
