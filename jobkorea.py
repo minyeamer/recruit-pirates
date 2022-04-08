@@ -8,4 +8,5 @@ class Jobkorea(Content):
     def get_content(self) -> dict:
         return self.content
     
-    def set_params(self)
+    def set_params(self):
+        pass
