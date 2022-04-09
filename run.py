@@ -1,9 +1,5 @@
 from admin import get_admin_info
 from client import Admin, Client
-from saramin import *
-# from jobkorea import *
-# from wanted import *
-from code_map.get import *
 
 
 def collect_requires() -> dict:
@@ -24,9 +20,6 @@ def collect_requires() -> dict:
     requires['salary_map'] = input('지역별 연봉 지도를 보시겠습니까? (Y/N) ')
     requires['count'] = input('검색할 채용공고 개수를 입력해주세요. (최대 110) ')
     requires['companies'] = input('희망하는 회사를 입력해주세요. (생략가능) ').split()
-    requires['code_map'] = dict()
-    requires['code_map'].update(get_saramin_loc('code_map/'))
-    requires['code_map'].update(get_saramin_job('code_map/'))
 
     return requires
 
@@ -52,10 +45,7 @@ def main():
     """
 
     admin_info = get_admin_info()
-    admin_name = admin_info['name']
-    admin_address = admin_info['address']
-    admin_password = admin_info['password']
-    admin = Admin(admin_name, admin_address, admin_password)
+    admin = Admin(admin_info[0], admin_info[1], admin_info[2])
 
     # 클라이언트 요청이 있으면
     if True:
@@ -86,10 +76,8 @@ def debug_requires() -> dict:
     requires['assay'] = 'N'
     requires['skill'] = 'N'
     requires['skill_map'] = 'N'
+    requires['salary_map'] = 'N'
     requires['count'] = '10'
-    requires['companies'] = ''
-    requires['code_map'] = dict()
-    requires['code_map'].update(get_saramin_loc('code_map/'))
-    requires['code_map'].update(get_saramin_job('code_map/'))
+    requires['companies'] = ['직방']
 
     return requires
