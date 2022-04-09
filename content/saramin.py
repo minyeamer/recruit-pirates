@@ -35,6 +35,7 @@ class Saramin(Content):
 
     def set_params(self):
         requires = self.requires
+
         locations = requires['locations']
         jobs = requires['jobs']
         loc_dict = requires['codemap']['saramin_loc']
@@ -46,6 +47,10 @@ class Saramin(Content):
         fields = {'posting-date', 'expiration-date', 'keyword-code', 'count'}
 
         self.params['access-key'] = get_saramin_key()
+
+        if requires['companies']:
+            self.params['keywords'] = requires['companies'][0]
+
         self.params['loc_cd'] = ','.join(loc_list)
         self.params['job_cd'] = ','.join(job_list)
         self.params['fields'] = fields
@@ -54,11 +59,11 @@ class Saramin(Content):
 
 
     def reformat_contents(self):
-        if not self.contents:
-            raise Exception('서버로부터 응답을 받지 못했습니다.')
-
         recruits = self.contents['jobs']['job']
         self.contents = dict()
+
+        if not recruits:
+            raise Exception('조건에 맞는 사람인 채용공고가 없습니다.')
 
         for recruit in recruits:
             recruit_info = dict()

@@ -20,7 +20,7 @@ class Jobkorea(Content):
                                  f'/company/{company_id}/PassAssay'
                 assay_dict = self.request_assay()
             except Exception as e:
-                # 각각의 에러 메시지 로그에 기록하는 부분 생략
+                # 각각의 경고 메시지 로그에 기록하는 부분 생략
                 print(e)
                 continue
 
@@ -42,7 +42,7 @@ class Jobkorea(Content):
             corp_list = corp_info.find('li', {'class': 'list-post'})
             corp_name = corp_list.find('a', {'class': 'name'})
         except AttributeError:
-            raise Exception(f'{self.company}의 회사 페이지가 존재하지 않습니다.')
+            raise Exception(f'잡코리아에서 {self.company}의 회사 페이지가 존재하지 않습니다.')
 
         return corp_name.get('href').replace('/company/', '')
 
