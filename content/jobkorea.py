@@ -13,18 +13,18 @@ class Jobkorea(Content):
         self.service_url = 'https://www.jobkorea.co.kr'
 
         for company in self.requires['companies']:
+            self.contents[company] = dict()
+            
             try:
                 self.company = company
                 company_id = self.get_company_id()
                 self.assay_url = self.service_url + \
                                  f'/company/{company_id}/PassAssay'
-                assay_dict = self.request_assay()
+                self.contents[company] = self.request_assay()
             except Exception as e:
                 # 각각의 경고 메시지 로그에 기록하는 부분 생략
                 print(e)
-                continue
-
-            self.contents[company] = assay_dict
+                pass
 
 
     def get_company_id(self) -> str:

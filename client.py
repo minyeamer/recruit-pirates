@@ -48,7 +48,7 @@ class Admin(Person):
             msg['From'] = self.address
             msg['To'] = client.address
 
-            body = client.get_html_body()
+            body = client.get_html()
             msg.attach(MIMEText(body, 'html'))
 
             smtp.send_message(msg)
