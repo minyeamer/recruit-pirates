@@ -1,6 +1,7 @@
-from email.mime.multipart import MIMEMultipart
 import smtplib
 from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+import locale
 from datetime import date
 from content.content import Content
 from codemap.get import get_codemap
@@ -37,7 +38,7 @@ class Admin(Person):
         SMTP_PORT = '465'
 
         smtp = smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT)
-        smtp.starttls()
+        # smtp.starttls()
         smtp.login(self.address, self.password)
 
         for client in clients:
@@ -47,14 +48,37 @@ class Admin(Person):
             msg['Subject'] = f'[Recruits Pirates] {date.today()}'
             msg['From'] = self.address
             msg['To'] = client.address
-
-            body = client.get_html()
-            msg.attach(MIMEText(body, 'html'))
-
+            msg.attach(MIMEText(self.get_message(client), 'html'))
             smtp.send_message(msg)
 
         print('Successfully Completed :)')
         smtp.quit()
+
+
+    def get_message(self, client):
+        locale.setlocale(locale.LC_ALL, 'ko_KR.UTF-8')
+        today = date.today().strftime('%Y년 %m월 %d일')
+
+        header = \
+        """
+        <!DOCTYPE html><html><meta charset="utf-8"><head></head>
+        """
+
+        body = \
+        f"""
+        <body>
+        <div id="header">
+        <h1>Recruit Pirates</h1>
+        <p>개선사항이 필요하다면 답장주세요!</p>
+        <p>{today} 기준 검색된 채용공고 목록 입니다.</p>
+        </div>
+        <hr>
+        {''.join(client.get_html())}
+        </body>
+        </html>
+        """
+
+        return header + body
 
 
     def add_client(self, client):

@@ -60,6 +60,7 @@ class Content:
         return self.contents
 
 
+    # HTML 디자인 개선 필요 :(
     def get_html(self, contents=None, body=list(), head=2) -> list:
         head = min(head, 6)
 
@@ -67,24 +68,33 @@ class Content:
             contents = self.contents
 
         for key, values in contents.items():
+            if not values:
+                continue
+
+            body.append(f'<div id="{key}">')
             body.append(f'<h{head}>{key.capitalize()}</h{head}>')
 
             if key == 'assay':
                 return self.get_assay_html(values, body, head)
 
             if type(values) is not dict:
-                if type(values) in {str, date}:
-                    body.append(f'<p>{values}</p>')
+                if type(values) in {int, date}:
+                    body.append(f'<ul><li>{values}</li></ul>')
+                if type(values) is str:
+                    text = values.replace('. ', '.<br>')
+                    body.append(f'<ul><li>{text}</li></ul>')
                 elif type(values) in {list, tuple}:
                     body.append('<ul>')
                     for value in values:
-                        body.append(f'<li>{value}</li>')
+                        text = value.replace('. ', '.<br>')
+                        body.append(f'<li>{text}</li>')
                     body.append('</ul>')
                 else:
                     pass # 미구현
             else:
                 for key, value in values.items():
                     self.get_html({key: value}, body, head+1)
+            body.append('</div>')
 
             if head < 3:
                 body.append('<hr>')
@@ -94,11 +104,16 @@ class Content:
 
     def get_assay_html(self, assay: dict, body: list, head: int):
         for title, details in assay.items():
-            body.append('<details>')
-            body.append(f'<summary>{title}</summary>')
+            # Gmail에서 <details> 태그 미지원
+            # 다른 방안을 찾을 때까지 blockquote 태그로 대체
+            # body.append('<details>')
+            # body.append(f'<summary>{title}</summary>')
+            body.append('<blockquote>')
+            body.append(f'<h{head}>{title}</h{head}>')
             for key, value in details.items():
                 self.get_html({key: value}, body, head+1)
-            body.append('</details>')
+            # body.append('</details>')
+            body.append('</blockquote>')
 
 
     def get_dataframe(self, index_name='index'):
