@@ -1,4 +1,4 @@
-from content import Content
+from content.content import Content
 
 class Wanted(Content):
     def __init__(self, requires: dict):

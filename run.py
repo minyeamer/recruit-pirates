@@ -19,7 +19,7 @@ def collect_requires() -> dict:
     # requires['skill'].append(input('기술역량 워드클라우드를 보시겠습니까? (Y/N)'))
     requires['salary_map'] = input('지역별 연봉 지도를 보시겠습니까? (Y/N) ')
     requires['count'] = input('검색할 채용공고 개수를 입력해주세요. (최대 110) ')
-    requires['companies'] = input('희망하는 회사를 입력해주세요. (생략가능) ').split()
+    requires['companies'] = list(input('희망하는 회사를 입력해주세요. (생략가능) '))
 
     return requires
 
@@ -50,7 +50,6 @@ def main():
     # 클라이언트 요청이 있으면
     if True:
         client = make_client()
-        admin.add_client(client)
         client.request_contents()
 
 
@@ -73,11 +72,11 @@ def debug_requires() -> dict:
 
     requires['locations'] = ['서울']
     requires['jobs'] = ['인공지능']
-    requires['assay'] = 'N'
+    requires['assay'] = 'Y'
     requires['skill'] = 'N'
     requires['skill_map'] = 'N'
     requires['salary_map'] = 'N'
     requires['count'] = '10'
-    requires['companies'] = ['직방']
+    requires['companies'] = ['그린웹서비스']
 
     return requires
