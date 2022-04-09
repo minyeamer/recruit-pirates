@@ -4,7 +4,7 @@
 
 __pycache__
 
-#debug_files/
+debug_files/
 
 .debug.ipynb
 
