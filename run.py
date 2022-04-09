@@ -14,17 +14,17 @@ def collect_requires() -> dict:
 
     requires['locations'] = input('희망하는 지역을 입력해주세요. ').split()
     requires['jobs'] = input('희망하는 직업을 입력해주세요. ').split()
-    requires['assay'] = input('합격자소서 항목을 보시겠습니까? (Y/N) ')
-    requires['skill'] = [input('기술역량 항목을 보시겠습니까? (Y/N) ')]
-    # requires['skill'].append(input('기술역량 워드클라우드를 보시겠습니까? (Y/N)'))
-    requires['salary_map'] = input('지역별 연봉 지도를 보시겠습니까? (Y/N) ')
+    requires['assay'] = input('합격자소서 항목을 보시겠습니까? (Y/N) ') == 'Y'
+    requires['skill'] = input('기술역량 항목을 보시겠습니까? (Y/N) ') == 'Y'
+    # requires['skill'].append(input('기술역량 워드클라우드를 보시겠습니까? (Y/N)')) == 'Y'
+    requires['salary_map'] = input('지역별 연봉 지도를 보시겠습니까? (Y/N) ') == 'Y'
     requires['count'] = input('검색할 채용공고 개수를 입력해주세요. (최대 110) ')
     requires['companies'] = list(input('희망하는 회사를 입력해주세요. (생략가능) '))
 
     return requires
 
 
-def make_client() -> Client:
+def make_client(admin: Admin) -> Client:
     """
     클라이언트의 요청을 토대로 클라이언트 객체를 생성하고 반환하는 함수
     실제 서비스에선 Bootstrap의 Form 템플릿을 활용하기 때문에 입력값 검증 불필요
@@ -34,7 +34,40 @@ def make_client() -> Client:
     name = input('이름을 입력해주세요. ')
     address = input('이메일 주소를 입력해주세요. ')
     requires = collect_requires()
-    return Client(name, address, requires)
+    return Client(name, address, requires, admin)
+
+
+def debug_requires() -> dict:
+    """
+    디버그용 함수
+    input()을 거치지 않고 미리 지정된 클라이언트 요구사항을 반환
+    """
+
+    requires = dict()
+
+    requires['locations'] = ['서울']
+    requires['jobs'] = ['인공지능']
+    requires['assay'] = True
+    requires['skill'] = False
+    requires['skill_map'] = False
+    requires['salary_map'] = False
+    requires['count'] = '10'
+    requires['companies'] = ['그린웹서비스']
+
+    return requires
+
+
+def debug_client(admin: Admin) -> Client:
+    """
+    클라이언트의 요청을 토대로 클라이언트 객체를 생성하고 반환하는 함수
+    실제 서비스에선 Bootstrap의 Form 템플릿을 활용하기 때문에 입력값 검증 불필요
+    웹페이지에서 입력을 받게 된다면 collect_requires() 함수 불필요
+    """
+
+    name = '김민엽'
+    address = 'kimmy9809@likelion.org'
+    requires = debug_requires()
+    return Client(name, address, requires, admin)
 
 
 def main():
@@ -49,7 +82,8 @@ def main():
 
     # 클라이언트 요청이 있으면
     if True:
-        client = make_client()
+        # client = make_client(admin)
+        client = debug_client(admin)
         client.request_contents()
 
 
@@ -60,23 +94,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
-def debug_requires() -> dict:
-    """
-    디버그용 함수
-    input()을 거치지 않고 미리 지정된 클라이언트 요구사항을 반환
-    """
-
-    requires = dict()
-
-    requires['locations'] = ['서울']
-    requires['jobs'] = ['인공지능']
-    requires['assay'] = 'Y'
-    requires['skill'] = 'N'
-    requires['skill_map'] = 'N'
-    requires['salary_map'] = 'N'
-    requires['count'] = '10'
-    requires['companies'] = ['그린웹서비스']
-
-    return requires

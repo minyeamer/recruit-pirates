@@ -1,4 +1,5 @@
 import pandas as pd
+from datetime import date
 
 
 class Content:
@@ -26,8 +27,7 @@ class Content:
             if not requires['companies']:
                 requires['companies'] = list(self.contents.keys())
 
-            # 실제 서비스 적용 시 'Y' 대신 True로 변환
-            if 'Y' == requires['assay']:
+            if requires['assay']:
                 from content.jobkorea import Jobkorea
                 jobkorea_client = Jobkorea(requires)
                 jobkorea_client.request_contents()
@@ -35,14 +35,14 @@ class Content:
                 for company, assay in jobkorea_content.items():
                     self.contents[company]['assay'] = assay
 
-            # 실제 서비스 적용 시 'Y' 대신 True로 변환
-            if 'Y' in requires['skill']:
+            if requires['skill']:
                 from content.wanted import Wanted
                 wanted_client = Wanted(requires)
                 wanted_client.request_contents()
                 wanted_content = wanted_client.get_content()
                 for company, skill in wanted_content.items():
                     self.contents[company]['skill'] = skill
+
         except Exception as e:
             print('채용공고 정보를 받아오지 못했습니다.')
             print(e)
@@ -60,8 +60,45 @@ class Content:
         return self.contents
 
 
-    def get_html_body(self) -> dict:
-        return self.contents
+    def get_html(self, contents=None, body=list(), head=2) -> list:
+        head = min(head, 6)
+
+        if not contents:
+            contents = self.contents
+
+        for key, values in contents.items():
+            body.append(f'<h{head}>{key.capitalize()}</h{head}>')
+
+            if key == 'assay':
+                return self.get_assay_html(values, body, head)
+
+            if type(values) is not dict:
+                if type(values) in {str, date}:
+                    body.append(f'<p>{values}</p>')
+                elif type(values) in {list, tuple}:
+                    body.append('<ul>')
+                    for value in values:
+                        body.append(f'<li>{value}</li>')
+                    body.append('</ul>')
+                else:
+                    pass # 미구현
+            else:
+                for key, value in values.items():
+                    self.get_html({key: value}, body, head+1)
+
+            if head < 3:
+                body.append('<hr>')
+
+        return body
+
+
+    def get_assay_html(self, assay: dict, body: list, head: int):
+        for title, details in assay.items():
+            body.append('<details>')
+            body.append(f'<summary>{title}</summary>')
+            for key, value in details.items():
+                self.get_html({key: value}, body, head+1)
+            body.append('</details>')
 
 
     def get_dataframe(self, index_name='index'):
