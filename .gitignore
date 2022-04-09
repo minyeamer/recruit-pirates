@@ -9,3 +9,5 @@ __pycache__
 .debug.ipynb
 
 admin.py
+
+content/api.py
