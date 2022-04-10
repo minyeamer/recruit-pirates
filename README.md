@@ -178,3 +178,14 @@ wanted.contents = {
     }, ...
 }
 ```
+
+---
+
+## 11. Error Lists
+
+### Python Circular Imports
+- 작성 중
+
+### Gmail Unsupported Tags
+- [What HTML tags are supported in Gmail?](https://zapier.com/help/doc/what-html-tags-are-supported-in-gmail)
+- 작성 중
