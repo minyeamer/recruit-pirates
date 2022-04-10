@@ -5,7 +5,6 @@
 ---
 
 ## Index
-  - [Index](#index)
   - [How to Use](#how-to-use)
   - [Team Members](#team-members)
   - [Main Classes](#main-classes)
