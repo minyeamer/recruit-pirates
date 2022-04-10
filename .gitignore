@@ -7,3 +7,5 @@ __pycache__
 admin.py
 
 content/api.py
+
+debugs/
