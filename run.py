@@ -16,7 +16,7 @@ def collect_requires() -> dict:
     requires['jobs'] = input('희망하는 직업을 입력해주세요. ').split()
     requires['assay'] = input('합격자소서 항목을 보시겠습니까? (Y/N) ') == 'Y'
     requires['skill'] = input('기술역량 항목을 보시겠습니까? (Y/N) ') == 'Y'
-    # requires['skill'].append(input('기술역량 워드클라우드를 보시겠습니까? (Y/N)')) == 'Y'
+    # requires['skill_map'].append(input('기술역량 워드클라우드를 보시겠습니까? (Y/N)')) == 'Y'
     requires['salary_map'] = input('지역별 연봉 지도를 보시겠습니까? (Y/N) ') == 'Y'
     requires['count'] = input('검색할 채용공고 개수를 입력해주세요. (최대 110) ')
     requires['companies'] = list(input('희망하는 회사를 입력해주세요. (생략가능) '))
@@ -48,11 +48,10 @@ def debug_requires() -> dict:
     requires['locations'] = ['서울']
     requires['jobs'] = ['인공지능']
     requires['assay'] = True
-    requires['skill'] = False
-    requires['skill_map'] = False
+    requires['skill'] = True
     requires['salary_map'] = False
-    requires['count'] = '10'
-    requires['companies'] = ['그린웹서비스']
+    requires['count'] = '5'
+    requires['companies'] = ['비포플레이']
 
     return requires
 
@@ -64,8 +63,8 @@ def debug_client(admin: Admin) -> Client:
     웹페이지에서 입력을 받게 된다면 collect_requires() 함수 불필요
     """
 
-    name = '김민엽'
-    address = 'kimmy9809@likelion.org'
+    name = 'minyeamer'
+    address = 'abcd1234@gmail.com'
     requires = debug_requires()
     return Client(name, address, requires, admin)
 
@@ -77,6 +76,8 @@ def main():
     admin_info는 개인정보 보호를 위해 숨김 처리, 필요 시 값 변경
     """
 
+    # admin.get_admin_info()는 개인정보 문제로 숨김 처리
+    # Admin() 객체 생성 파라미터에 본인 이름, 메일주소, 메일비밀번호 순으로 입력
     admin_info = get_admin_info()
     admin = Admin(admin_info[0], admin_info[1], admin_info[2])
 

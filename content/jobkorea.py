@@ -6,7 +6,7 @@ from content.content import Content
 class Jobkorea(Content):
     """
     잡코리아에 회사에 대한 합격자소서 정보를 요청하고 결과를 저장하는 잡코리아 객체
-    회사 이름을 바탕으로 잡코리아를 크롤링해서 합격자소서 문자열 리스트를 반환
+    회사 이름을 바탕으로 잡코리아를 크롤링해서 합격자소서 문자열 딕셔너리를 반환
     """
 
     def request_contents(self):
@@ -42,7 +42,7 @@ class Jobkorea(Content):
             corp_list = corp_info.find('li', {'class': 'list-post'})
             corp_name = corp_list.find('a', {'class': 'name'})
         except AttributeError:
-            raise Exception(f'잡코리아에서 {self.company}의 회사 페이지가 존재하지 않습니다.')
+            raise Exception(f'잡코리아에 {self.company}의 회사 페이지가 존재하지 않습니다.')
 
         return corp_name.get('href').replace('/company/', '')
 
@@ -50,7 +50,7 @@ class Jobkorea(Content):
     def request_assay(self) -> dict:
         assay_section = self.request_assay_section()
 
-        # 회사별 합격자소서 최대 표시 개수, 향후 해당 부분 입력 구문 구현
+        # 회사별 합격자소서 최대 표시 개수, 향후 해당 부분 입력 구문 구현 (기본값 3)
         assay_count = self.get_assay_count(assay_section, 3)
         if assay_count <= 10:
             assay_numbers = self.get_assay_numbers(assay_section, assay_count)
@@ -68,7 +68,7 @@ class Jobkorea(Content):
         time.sleep(0.5)
 
         if not assay_section:
-            raise Exception(f'{self.company}의 합격자소서가 존재하지 않습니다.')
+            raise Exception(f'잡코리아에 {self.company}의 합격자소서가 존재하지 않습니다.')
 
         return assay_section
 
@@ -118,15 +118,16 @@ class Jobkorea(Content):
             response = requests.get(assay_detail_url)
             source = BeautifulSoup(response.content, 'html.parser')
             detail_view = source.find('article', {'class': 'detailView'})
+            title = detail_view.find('h2').get_text()
             time.sleep(0.5)
 
             assay_detail_dict = dict()
-            assay_detail_dict['number'] = assay_number
-            assay_detail_dict['advice'] = self.get_assay_advice(detail_view)
+            # assay_detail_dict['합격자소서 번호'] = assay_number
+            assay_detail_dict['합격자소서 제목'] = (title, assay_detail_url)
+            assay_detail_dict['전문가 자소서 총평'] = self.get_assay_advice(detail_view)
             assay_detail_dict.update(self.get_assay_qna(detail_view))
 
-            title = detail_view.find('h2').get_text()
-            assay_dict[title] = assay_detail_dict
+            assay_dict[assay_number] = assay_detail_dict
         
         return assay_dict
 
@@ -148,7 +149,7 @@ class Jobkorea(Content):
 
 
     def get_assay_qna(self, detail_view: BeautifulSoup) -> dict:
-        qna_dict = {'index': list()}
+        qna_dict = {'자소서 항목': list()}
         qna_div = detail_view.find('dl',{'class':'qnaLists'})
 
         indexes = qna_div.find_all('span',{'class':'num'})
@@ -157,8 +158,8 @@ class Jobkorea(Content):
         qna_zip = zip(indexes, questions, answers)
 
         for index, question, answer in qna_zip:
-            index = index.get_text()
             question = question.get_text()
+            index = ' '.join([index.get_text(), question])
             answer = answer.get_text().replace('\r\n\r\n', ' ')
             answer = answer.replace('\r', '')
             answer = answer.replace('\n', '')
@@ -166,7 +167,7 @@ class Jobkorea(Content):
             answer = answer.split('아쉬운점')[0].strip()
             answer = answer.split('좋은점')[0].strip()
 
-            qna_dict['index'].append(index)
-            qna_dict[index] = (question, answer)
+            qna_dict['자소서 항목'].append(index)
+            qna_dict[index] = answer
         
         return qna_dict

@@ -70,9 +70,8 @@ class Admin(Person):
         <div id="header">
         <h1>Recruit Pirates</h1>
         <p>개선사항이 필요하다면 답장주세요!</p>
-        <p>{today} 기준 검색된 채용공고 목록 입니다.</p>
+        <p>{today} 기준 검색된 채용공고 목록입니다.</p>
         </div>
-        <hr>
         {''.join(client.get_html())}
         </body>
         </html>

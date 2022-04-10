@@ -1,9 +1,9 @@
 import requests
 import json
+import locale
 from datetime import date
 from content.content import Content
 from content.api import get_saramin_key
-
 
 class Saramin(Content):
     """
@@ -46,6 +46,8 @@ class Saramin(Content):
 
         fields = {'posting-date', 'expiration-date', 'keyword-code', 'count'}
 
+        # content.api.get_saramin_key()는 개인정보 문제로 숨김 처리
+        # 해당 부분에 본인의 사람인 API키 입력
         self.params['access-key'] = get_saramin_key()
 
         if requires['companies']:
@@ -63,15 +65,19 @@ class Saramin(Content):
         self.contents = dict()
 
         if not recruits:
-            raise Exception('조건에 맞는 사람인 채용공고가 없습니다.')
+            raise Exception('사람인에 조건에 맞는 채용공고가 없습니다.')
 
         for recruit in recruits:
             recruit_info = dict()
-            company = recruit['company']['detail']
-            position = recruit['position']
+            locale.setlocale(locale.LC_ALL, 'ko_KR.UTF-8')
 
+            position = recruit['position']
+            position_url = recruit['url'].split('&')[0]
+
+            company = recruit['company']['detail']
             company_id = company['href'].split('csn=')[1]
             company_id= company_id.split('&')[0]
+            company_url = company['href'].split('&')[0]
 
             opening_date = int(recruit['opening-timestamp'])
             opening_date = date.fromtimestamp(opening_date)
@@ -79,20 +85,21 @@ class Saramin(Content):
             expiration_date = int(recruit['expiration-timestamp'])
             expiration_date = date.fromtimestamp(expiration_date)
 
-            recruit_info['company_id'] = company_id
-            recruit_info['position_id'] = recruit['id']
-            recruit_info['title'] = position['title']
-            recruit_info['industry'] = position['industry']['name']
-            recruit_info['location'] = position['location']['name']
-            recruit_info['job_type'] = position['job-type']['name']
-            recruit_info['exp'] = position['experience-level']['name']
-            recruit_info['edu'] = position['required-education-level']['name']
-            recruit_info['keyword'] = recruit['keyword']
-            recruit_info['salary'] = recruit['salary']['name']
-            recruit_info['opening_date'] = opening_date
-            recruit_info['expiration_date'] = expiration_date
-            recruit_info['dday'] = (expiration_date - date.today()).days
-            recruit_info['close-type'] = recruit['close-type']['name']
+            # recruit_info['회사 번호'] = company_id
+            recruit_info['회사 주소'] = (f'사람인 회사 페이지 바로가기', company_url)
+            # recruit_info['채용공고 글번호'] = recruit['id']
+            recruit_info['채용공고 제목'] = (position['title'], position_url)
+            recruit_info['업종'] = position['industry']['name']
+            recruit_info['지역'] = position['location']['name']
+            recruit_info['근무형태'] = position['job-type']['name']
+            recruit_info['경력'] = position['experience-level']['name']
+            recruit_info['학력'] = position['required-education-level']['name']
+            recruit_info['직무 키워드'] = recruit['keyword']
+            recruit_info['연봉'] = recruit['salary']['name']
+            recruit_info['접수 시작일'] = opening_date.strftime('%Y년 %m월 %d일')
+            recruit_info['접수 마감일'] = expiration_date.strftime('%Y년 %m월 %d일')
+            recruit_info['D-Day'] = str((expiration_date - date.today()).days) + '일'
+            recruit_info['마감일 형식'] = recruit['close-type']['name']
 
             self.contents[company['name'].replace('(주)', '')] = recruit_info
     
