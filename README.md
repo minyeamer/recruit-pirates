@@ -5,19 +5,20 @@
 ---
 
 ## Index
-  - [How to Use](#how-to-use)
-  - [Team Members](#team-members)
-  - [Main Classes](#main-classes)
-  - [Main Functions](#main-functions)
-  - [Client Request](#client-request)
-  - [Contents](#contents)
-  - [Saramin Contents](#saramin-contents)
-  - [Jobkorea Contents](#jobkorea-contents)
-  - [Wanted Contents](#wanted-contents)
+  1.  [How to Use](#1-how-to-use)
+  2.  [Team Members](#2-team-members)
+  3.  [Implementation](#3-implementation)
+  4.  [Main Classes](#4-main-classes)
+  5.  [Main Functions](#5-main-functions)
+  6.  [Client Request](#6-client-request)
+  7.  [Contents](#7-contents)
+  8.  [Saramin Contents](#8-saramin-contents)
+  9.  [Jobkorea Contents](#9-jobkorea-contents)
+  10. [Wanted Contents](#10-wanted-contents)
 
 ---
 
-## How to Use
+## 1. How to Use
 - 실제 서비스를 위해선 웹과 연동해야겠지만, 현재는 `run.py` 위에서 직접 값을 넣어 실행
 - 관리자 정보 및 API 키는 개인정보 보호를 위해 제외, 해당 부분에 본인 정보 입력
 - 관리자 객체 생성 > 클라이언트 객체 생성 > 채용공고 요청 > 메일 전송 순으로 실행 요망
@@ -25,7 +26,7 @@
 
 ---
 
-## Team Members
+## 2. Team Members
 - KMY: 아키텍처 설계, 사람인 채용공고 수집 프로세스 개발, 메일링 기능 개발
 - KJW: `Selenium`을 활용한 원티드 크롤링 기능 구현
 - LDG: 프로젝트 매니저, 연봉 지도 시각화 시도
@@ -33,7 +34,25 @@
 
 ---
 
-## Main Classes
+## 3. Implementation
+
+### Languages:
+- Python 3.9.10
+
+### IDE:
+- Visual Studio Code
+- Jupyter Notebook
+
+### Libraries:
+- bs4 0.0.1
+- pandas 1.4.1
+- requests 2.27.1
+- selenium 4.3.1
+- webdriver-manager 3.5.4
+
+---
+
+## 4. Main Classes
 - `Admin(Person)`: 클라이언트를 관리하고 메일을 보내는 객체
 - `Client(Person, Content)`: 컨텐츠(=채용공고)를 요청하고 저장하는 객체
 - `Content()`: 채용정보를 요청하고 반환하는 기능을 갖고 있는 부모 객체
@@ -43,7 +62,7 @@
 
 ---
 
-## Main Functions
+## 5. Main Functions
 - `request`로 시작하는 클래스 내장 함수들은 주로 웹을 통해 데이터를 수집하거나   
   전체적인 크롤링 프로세스를 지휘하는 역할
 - `Content()`에서 `request_contents()`가 `main()` 함수 같은 역할 수행,   
@@ -57,7 +76,7 @@
 
 ---
 
-## Client Request
+## 6. Client Request
 
 ```python
 requires = {
@@ -77,7 +96,7 @@ requires = {
 
 ---
 
-## Contents
+## 7. Contents
 
 ```python
 content.contents = {
@@ -103,7 +122,7 @@ content.contents = {
 
 ---
 
-## Saramin Contents
+## 8. Saramin Contents
 
 ```python
 saramin.contents = {
@@ -128,7 +147,7 @@ saramin.contents = {
 
 ---
 
-## Jobkorea Contents
+## 9. Jobkorea Contents
 
 ```python
 jobkorea.contents = {
@@ -145,7 +164,7 @@ jobkorea.contents = {
 
 ---
 
-## Wanted Contents
+## 10. Wanted Contents
 
 ```python
 wanted.contents = {
