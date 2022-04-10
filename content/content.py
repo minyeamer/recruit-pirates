@@ -1,5 +1,5 @@
 import pandas as pd
-from datetime import date
+import content.html
 
 
 class Content:
@@ -16,36 +16,46 @@ class Content:
 
 
     def request_contents(self):
-        requires = self.requires
-
         try:
-            from content.saramin import Saramin
-            saramin_client = Saramin(requires)
-            saramin_client.request_contents()
-            self.contents = saramin_client.get_contents()
+            self.request_saramin_contents()
 
-            if not requires['companies']:
-                requires['companies'] = list(self.contents.keys())
+            if not self.requires['companies']:
+                self.requires['companies'] = list(self.contents.keys())
 
-            if requires['assay']:
-                from content.jobkorea import Jobkorea
-                jobkorea_client = Jobkorea(requires)
-                jobkorea_client.request_contents()
-                jobkorea_content = jobkorea_client.get_contents()
-                for company, assay in jobkorea_content.items():
-                    self.contents[company]['assay'] = assay
+            if self.requires['assay']:
+                self.request_jobkorea_contents()
 
-            if requires['skill']:
-                from content.wanted import Wanted
-                wanted_client = Wanted(requires)
-                wanted_client.request_contents()
-                wanted_content = wanted_client.get_content()
-                for company, skill in wanted_content.items():
-                    self.contents[company]['skill'] = skill
+            if self.requires['skill']:
+                self.request_wanted_contents()
 
         except Exception as e:
             print('채용공고 정보를 받아오지 못했습니다.')
             print(e)
+
+
+    def request_saramin_contents(self):
+        from content.saramin import Saramin
+        saramin_client = Saramin(self.requires)
+        saramin_client.request_contents()
+        self.contents = saramin_client.get_contents()
+
+
+    def request_jobkorea_contents(self):
+        from content.jobkorea import Jobkorea
+        jobkorea_client = Jobkorea(self.requires)
+        jobkorea_client.request_contents()
+        jobkorea_content = jobkorea_client.get_contents()
+        for company, assay in jobkorea_content.items():
+            self.contents[company]['잡코리아 제공 합격자소서'] = assay
+
+
+    def request_wanted_contents(self):
+        from content.wanted import Wanted
+        wanted_client = Wanted(self.requires)
+        wanted_client.request_contents()
+        wanted_content = wanted_client.get_contents()
+        for company, skill in wanted_content.items():
+            self.contents[company]['원티드 제공 기술역량'] = skill
 
 
     def set_headers(self):
@@ -60,60 +70,13 @@ class Content:
         return self.contents
 
 
-    # HTML 디자인 개선 필요 :(
-    def get_html(self, contents=None, body=list(), head=2) -> list:
-        head = min(head, 6)
+    def get_html(self) -> list:
+        html = content.html.get_html(self.contents)
 
-        if not contents:
-            contents = self.contents
-
-        for key, values in contents.items():
-            if not values:
-                continue
-
-            body.append(f'<div id="{key}">')
-            body.append(f'<h{head}>{key.capitalize()}</h{head}>')
-
-            if key == 'assay':
-                return self.get_assay_html(values, body, head)
-
-            if type(values) is not dict:
-                if type(values) in {int, date}:
-                    body.append(f'<ul><li>{values}</li></ul>')
-                if type(values) is str:
-                    text = values.replace('. ', '.<br>')
-                    body.append(f'<ul><li>{text}</li></ul>')
-                elif type(values) in {list, tuple}:
-                    body.append('<ul>')
-                    for value in values:
-                        text = value.replace('. ', '.<br>')
-                        body.append(f'<li>{text}</li>')
-                    body.append('</ul>')
-                else:
-                    pass # 미구현
-            else:
-                for key, value in values.items():
-                    self.get_html({key: value}, body, head+1)
-            body.append('</div>')
-
-            if head < 3:
-                body.append('<hr>')
-
-        return body
-
-
-    def get_assay_html(self, assay: dict, body: list, head: int):
-        for title, details in assay.items():
-            # Gmail에서 <details> 태그 미지원
-            # 다른 방안을 찾을 때까지 blockquote 태그로 대체
-            # body.append('<details>')
-            # body.append(f'<summary>{title}</summary>')
-            body.append('<blockquote>')
-            body.append(f'<h{head}>{title}</h{head}>')
-            for key, value in details.items():
-                self.get_html({key: value}, body, head+1)
-            # body.append('</details>')
-            body.append('</blockquote>')
+        if not html:
+            return ['<hr><div><h2>현재 조건에 맞는 채용공고가 없습니다.</h2></div>']
+        else:
+            return html
 
 
     def get_dataframe(self, index_name='index'):
