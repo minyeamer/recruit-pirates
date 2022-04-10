@@ -109,7 +109,7 @@ class Jobkorea(Content):
 
 
     def get_assay_dict(self, assay_numbers: list) -> dict:
-        assay_dict = dict()        
+        assay_dict = dict()
 
         for assay_number in assay_numbers:
             assay_detail_url = self.assay_url + \
