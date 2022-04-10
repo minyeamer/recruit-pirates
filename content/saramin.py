@@ -9,7 +9,6 @@ class Saramin(Content):
     """
     사람인 API에 채용공고 정보를 요청하고 결과를 저장하는 사람인 객체
     사람인 API에서 받은 JSON 응답을 재해석해 딕셔너리로 변환
-    사람인 API 키는 개인정보 보호를 위해 숨김 처리, 필요 시 값 변경
     """
 
     def request_contents(self):
@@ -102,7 +101,7 @@ class Saramin(Content):
             recruit_info['마감일 형식'] = recruit['close-type']['name']
 
             self.contents[company['name'].replace('(주)', '')] = recruit_info
-    
+
 
     def request_salary_map(self):
         pass

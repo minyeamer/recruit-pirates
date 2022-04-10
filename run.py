@@ -5,9 +5,10 @@ from client import Admin, Client
 def collect_requires() -> dict:
     """
     클라이언트의 요구사항을 수집하는 함수
-    실제 서비스에선 Bootstrap의 Form 템플릿을 활용하기 때문에 입력값 검증 불필요
-    코드맵과 맵핑해야 하는 지역 및 직업은 selectbox로 입력 처리
+    실제 서비스에선 Bootstrap의 Form 템플릿을 활용하기 때문에 해당 함수 불필요
+    코드맵과 맵핑해야 하는 지역 및 직업은 select option으로 입력 처리
     True/False 입력값을 기대하는 키값들은 checkbox로 입력 처리
+    나머지 키값들은 text로 입력 처리
     """
 
     requires = dict()
@@ -28,7 +29,6 @@ def make_client(admin: Admin) -> Client:
     """
     클라이언트의 요청을 토대로 클라이언트 객체를 생성하고 반환하는 함수
     실제 서비스에선 Bootstrap의 Form 템플릿을 활용하기 때문에 입력값 검증 불필요
-    웹페이지에서 입력을 받게 된다면 collect_requires() 함수 불필요
     """
 
     name = input('이름을 입력해주세요. ')
@@ -58,9 +58,8 @@ def debug_requires() -> dict:
 
 def debug_client(admin: Admin) -> Client:
     """
-    클라이언트의 요청을 토대로 클라이언트 객체를 생성하고 반환하는 함수
-    실제 서비스에선 Bootstrap의 Form 템플릿을 활용하기 때문에 입력값 검증 불필요
-    웹페이지에서 입력을 받게 된다면 collect_requires() 함수 불필요
+    디버그용 함수
+    input()을 거치지 않고 미리 지정된 정보를 사용해 클라이언트 생성
     """
 
     name = 'minyeamer'
@@ -73,7 +72,6 @@ def main():
     """
     메인 함수
     관리자 및 클라이언트 객체를 생성하고 클라이언트에게 메일을 일괄적으로 전송
-    admin_info는 개인정보 보호를 위해 숨김 처리, 필요 시 값 변경
     """
 
     # admin.get_admin_info()는 개인정보 문제로 숨김 처리

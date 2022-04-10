@@ -33,7 +33,7 @@ class Wanted(Content):
                 # 각각의 경고 메시지 로그에 기록하는 부분 생략
                 print(e)
                 pass
-        
+
         driver.close()
         driver.quit()
 

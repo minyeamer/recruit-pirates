@@ -4,20 +4,21 @@
 
 ---
 
-## 목차
-  - [사용법](#사용법)
-  - [팀 분업 개요](#팀-분업-개요)
-  - [주요 클래스 소개](#주요-클래스-소개)
-  - [주요 함수 소개](#주요-함수-소개)
-  - [클라이언트 요청](#클라이언트-요청)
-  - [컨텐츠 종합 딕셔너리](#컨텐츠-종합-딕셔너리)
-  - [사람인 API 반환값](#사람인-api-반환값)
-  - [잡코리아 반환값](#잡코리아-반환값)
-  - [원티드 반환값](#원티드-반환값)
+## Index
+  - [Index](#index)
+  - [How to Use](#how-to-use)
+  - [Team Members](#team-members)
+  - [Main Classes](#main-classes)
+  - [Main Functions](#main-functions)
+  - [Client Request](#client-request)
+  - [Contents](#contents)
+  - [Saramin Contents](#saramin-contents)
+  - [Jobkorea Contents](#jobkorea-contents)
+  - [Wanted Contents](#wanted-contents)
 
 ---
 
-## 사용법
+## How to Use
 - 실제 서비스를 위해선 웹과 연동해야겠지만, 현재는 `run.py` 위에서 직접 값을 넣어 실행
 - 관리자 정보 및 API 키는 개인정보 보호를 위해 제외, 해당 부분에 본인 정보 입력
 - 관리자 객체 생성 > 클라이언트 객체 생성 > 채용공고 요청 > 메일 전송 순으로 실행 요망
@@ -25,15 +26,15 @@
 
 ---
 
-## 팀 분업 개요
+## Team Members
 - KMY: 아키텍처 설계, 사람인 채용공고 수집 프로세스 개발, 메일링 기능 개발
-- KJW: Selenium을 활용한 원티드 크롤링 기능 구현
-- LDG: PM, 연봉 지도 시각화 시도
-- JMJ: BeautifulSoup을 활용한 잡코리아 크롤링 기능 구현
+- KJW: `Selenium`을 활용한 원티드 크롤링 기능 구현
+- LDG: 프로젝트 매니저, 연봉 지도 시각화 시도
+- JMJ: `BeautifulSoup`을 활용한 잡코리아 크롤링 기능 구현
 
 ---
 
-## 주요 클래스 소개
+## Main Classes
 - `Admin(Person)`: 클라이언트를 관리하고 메일을 보내는 객체
 - `Client(Person, Content)`: 컨텐츠(=채용공고)를 요청하고 저장하는 객체
 - `Content()`: 채용정보를 요청하고 반환하는 기능을 갖고 있는 부모 객체
@@ -43,7 +44,7 @@
 
 ---
 
-## 주요 함수 소개
+## Main Functions
 - `request`로 시작하는 클래스 내장 함수들은 주로 웹을 통해 데이터를 수집하거나   
   전체적인 크롤링 프로세스를 지휘하는 역할
 - `Content()`에서 `request_contents()`가 `main()` 함수 같은 역할 수행,   
@@ -57,14 +58,14 @@
 
 ---
 
-## 클라이언트 요청
+## Client Request
 
 ```python
 requires = {
     'locations': '희망 지역 리스트',
     'jobs': '희망 직업 리스트',
-    'assay': '자기소개서 포함 여부 (Y/N)', # 잡코리아 연결
-    'skill': '기술 역량 포함 여부 (Y/N)', # 원티드 연결
+    'assay': '자기소개서 포함 여부 (Y/N)',                             # 잡코리아 연결
+    'skill': '기술 역량 포함 여부 (Y/N)',                              # 원티드 연결
     'skill_map': '조건에 맞는 전체 기술 역량의 워드 클라우드 포함 여부 (Y/N)', # 원티드 연결
     'salary_map': '지역별 연봉 지도 포함 여부 (Y/N)',
     'count': '보여줄 채용공고 개수 (기본값: 5, 최대값: 110)',
@@ -77,7 +78,7 @@ requires = {
 
 ---
 
-## 컨텐츠 종합 반환값
+## Contents
 
 ```python
 content.contents = {
@@ -103,7 +104,7 @@ content.contents = {
 
 ---
 
-## 사람인 API 반환값
+## Saramin Contents
 
 ```python
 saramin.contents = {
@@ -121,15 +122,14 @@ saramin.contents = {
         '접수 마감일': {expiration_date},
         'D-Day': {expiration_date - today},
         '마감일 형식': {close-type},
-        # 현재 미구현
-        '연봉 지도': '특정 지역에 관한 연봉 맵 (folium.Map 타입)'
+        '연봉 지도': '특정 지역에 관한 연봉 맵 (folium.Map 타입)' # 현재 미구현
     }, ...
 }
 ```
 
 ---
 
-## 잡코리아 반환값
+## Jobkorea Contents
 
 ```python
 jobkorea.contents = {
@@ -138,7 +138,7 @@ jobkorea.contents = {
             '합격자소서 제목': ({title}, {url})
             '전문가 자소서 총평': {advice_lines}
             '자소서 항목': {index},
-            {question}: {answer}, ...
+            '질문': {answer}, ...
         }, ...
     }, ...
 }
@@ -146,7 +146,7 @@ jobkorea.contents = {
 
 ---
 
-## 원티드 반환값
+## Wanted Contents
 
 ```python
 wanted.contents = {
