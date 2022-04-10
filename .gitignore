@@ -4,10 +4,6 @@
 
 __pycache__
 
-debug_files/
-
-.debug.ipynb
-
 admin.py
 
 content/api.py
