@@ -5,32 +5,39 @@
 ---
 
 ## Index
-  1.  [How to Use](#1-how-to-use)
-  2.  [Team Members](#2-team-members)
-  3.  [Implementation](#3-implementation)
-  4.  [Main Classes](#4-main-classes)
-  5.  [Main Functions](#5-main-functions)
-  6.  [Client Request](#6-client-request)
-  7.  [Contents](#7-contents)
-  8.  [Saramin Contents](#8-saramin-contents)
-  9.  [Jobkorea Contents](#9-jobkorea-contents)
-  10. [Wanted Contents](#10-wanted-contents)
+  1. [How to Use](#1-how-to-use)
+  2. [Project Description](#2-project-description)
+  3. [Implementation](#3-implementation)
+  4. [Main Classes](#4-main-classes)
+  5. [Main Functions](#5-main-functions)
+  6. [Input/Output](#6-inputoutput)
+  7. [Error Lists](#7-error-lists)
+  8. [Restropective](#8-restropective)
 
 ---
 
 ## 1. How to Use
-- 실제 서비스를 위해선 웹과 연동해야겠지만, 현재는 `run.py` 위에서 직접 값을 넣어 실행
+- 실제 서비스를 위해선 웹과 연동해야겠지만, 현재는 `run.py` 위에 직접 값을 넣어 실행
 - 관리자 정보 및 API 키는 개인정보 보호를 위해 제외, 해당 부분에 본인 정보 입력
 - 관리자 객체 생성 > 클라이언트 객체 생성 > 채용공고 요청 > 메일 전송 순으로 실행 요망
 - 관리자 객체의 메일 주소를 발신자 주소로, 클라이언트 객체의 메일 주소를 수신자 주소로 설정
 
 ---
 
-## 2. Team Members
-- KMY: 아키텍처 설계, 사람인 채용공고 수집 프로세스 개발, 메일링 기능 개발
-- KJW: `Selenium`을 활용한 원티드 크롤링 기능 구현
-- LDG: 프로젝트 매니저, 연봉 지도 시각화 시도
-- JMJ: `BeautifulSoup`을 활용한 잡코리아 크롤링 기능 구현
+## 2. Project Description
+
+### Team Name
+> 해적왕 (The Pirate King)
+
+### Team Members
+- 김민엽: 아키텍처 설계, 사람인 채용공고 수집 기능 및 전반적인 조율 담당
+- 김지원: `Selenium`을 활용한 원티드 크롤링 기능 구현
+- 이동근: 프로젝트 매니저, 연봉 지도 시각화 시도
+- 정민주: `BeautifulSoup`을 활용한 잡코리아 크롤링 기능 구현
+
+### Project Period
+> Start Date: 2022-04-06   
+> End Date: 2022-04-10
 
 ---
 
@@ -76,7 +83,9 @@
 
 ---
 
-## 6. Client Request
+## 6. Input/Output
+
+### Client Input
 
 ```python
 requires = {
@@ -94,9 +103,7 @@ requires = {
 }
 ```
 
----
-
-## 7. Contents
+### Client Output
 
 ```python
 content.contents = {
@@ -120,9 +127,7 @@ content.contents = {
 }
 ```
 
----
-
-## 8. Saramin Contents
+### Saramin Output
 
 ```python
 saramin.contents = {
@@ -145,9 +150,7 @@ saramin.contents = {
 }
 ```
 
----
-
-## 9. Jobkorea Contents
+### Jobkorea Output
 
 ```python
 jobkorea.contents = {
@@ -162,9 +165,7 @@ jobkorea.contents = {
 }
 ```
 
----
-
-## 10. Wanted Contents
+### Wanted Output
 
 ```python
 wanted.contents = {
@@ -181,7 +182,7 @@ wanted.contents = {
 
 ---
 
-## 11. Error Lists
+## 7. Error List
 
 ### Python Circular Imports
 - 작성 중
@@ -189,3 +190,17 @@ wanted.contents = {
 ### Gmail Unsupported Tags
 - [What HTML tags are supported in Gmail?](https://zapier.com/help/doc/what-html-tags-are-supported-in-gmail)
 - 작성 중
+
+---
+
+## 8. Restropective
+- [Daily DevBlog](http://daily-devblog.com/)를 벤치마킹하여 처음엔 웹상에서 돌아가는 서비스로 만들고 싶었지만,   
+  매우 짧은 프로젝트 기간 동안 만들기엔 무리라 판단하여 기각 (개인적으로라도 구현해볼 것)
+- 재귀함수를 사용하여 채용정보를 HTML로 변환하는 부분을 비교적 짧게 기술한 것은 좋지만,   
+  결과물이 미적으로 아름답지 않음 (Gmail에 css를 포함하긴 어려울 듯)
+- 잡코리아의 경우 반복 시도 시 차단되는 문제가 있어 최적의 딜레이 시간 탐색할 필요
+- 원티드의 경우 셀레니움을 사용하는 것이 탐탁치 않음, POST 요청 등 다른 방안 탐색할 필요
+- 하루 100회 제한의 사람인 API로 여러 명의 클라이언트 요청을 받기엔 무리가 있기 때문에,
+  한번에 대량의 정보를 요청해서 DB에 따로 저장해 두었다가 반환하는 방법도 고려할 필요
+- 클라이언트의 요청을 DB에 저장하고 데이터를 분석해 관심사를 파악하면 재밌을 듯
+- 딕셔너리를 HTML로 변환하는 함수는 따로 라이브러리로 만들어서 나중에 사용해도 괜찮을 듯
