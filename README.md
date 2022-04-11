@@ -12,7 +12,7 @@
   5. [Main Functions](#5-main-functions)
   6. [Input/Output](#6-inputoutput)
   7. [Mail Example](#7-mail-example)
-  8. [Error Lists](#8-error-lists)
+  8. [Error List](#8-error-list)
   9. [Restropective](#9-restropective)
 
 ---
