@@ -9,7 +9,7 @@
   2. [Project Description](#2-project-description)
   3. [Implementation](#3-implementation)
   4. [Main Classes](#4-main-classes)
-  5. [Main Functions](#5-main-functions)
+  5. [Main Methods](#5-main-methods)
   6. [Input/Output](#6-inputoutput)
   7. [Mail Example](#7-mail-example)
   8. [Error List](#8-error-list)
@@ -70,13 +70,13 @@
 
 ---
 
-## 5. Main Functions
-- `request`로 시작하는 클래스 내장 함수들은 주로 웹을 통해 데이터를 수집하거나   
+## 5. Main Methods
+- `request`로 시작하는 메소드는 주로 웹을 통해 데이터를 수집하거나   
   전체적인 크롤링 프로세스를 지휘하는 역할
 - `Content()`에서 `request_contents()`가 `main()` 함수 같은 역할 수행,   
-  각각의 객체별 역할에 따라 제한된 채용공고 데이터를 요청하는 함수
-- `get`으로 시작하는 클래스 내장 함수들은 가져온 데이터를 가공하는 역할 (예외 있음)
-- `Admin()`의 `send_mail()`은 `SMTP`를 사용해 메일을 전송하는 함수,   
+  각각의 객체별 역할에 따라 제한된 채용공고 데이터를 요청하는 메소드
+- `get`으로 시작하는 메소드는 가져온 데이터를 가공하는 역할 (예외 있음)
+- `Admin()`의 `send_mail()`은 `SMTP`를 사용해 메일을 전송하는 메소드,   
   메일을 전송하는 과정에서 `Client(Content)`의 `get_html()`을 요청
 - `Content()`의 `get_html()`은 컨텐츠(딕셔너리)를 HTML 형식으로 변환하는 역할,   
   `Content()`안에 있던 `get_html()`이 구현 중 길어져 `content.html.py`로 분리,   
