@@ -2,6 +2,10 @@
 - 사람인, 잡코리아, 원티드로부터 채용 정보를 받아오는 서비스
 - 클라이언트 별로 종합한 정보들을 HTML 형식으로 변환해 메일로 전송
 
+<br>
+
+![mail](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fb8Seh7%2Fbtry8PDYnMT%2FnDPQhDbrwhdWoyOHJkKko0%2Fimg.png)
+
 ---
 
 ## Index
@@ -11,9 +15,8 @@
   4. [Main Classes](#4-main-classes)
   5. [Main Methods](#5-main-methods)
   6. [Input/Output](#6-inputoutput)
-  7. [Mail Example](#7-mail-example)
-  8. [Error List](#8-error-list)
-  9. [Restropective](#9-restropective)
+  7. [Error List](#7-error-list)
+  8. [Restropective](#8-restropective)
 
 ---
 
@@ -183,13 +186,7 @@ wanted.contents = {
 
 ---
 
-## 7. Mail Example
-
-![mail](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fb8Seh7%2Fbtry8PDYnMT%2FnDPQhDbrwhdWoyOHJkKko0%2Fimg.png)
-
----
-
-## 8. Error List
+## 7. Error List
 
 ### Python Circular Imports
 - 작성 중
@@ -200,7 +197,7 @@ wanted.contents = {
 
 ---
 
-## 9. Restropective
+## 8. Restropective
 - [Daily DevBlog](http://daily-devblog.com/)를 벤치마킹하여 처음엔 웹상에서 돌아가는 서비스로 만들고 싶었지만,   
   매우 짧은 프로젝트 기간 동안 만들기엔 무리라 판단하여 기각 (개인적으로라도 구현해볼 것)
 - 재귀함수를 사용하여 채용정보를 HTML로 변환하는 부분을 비교적 짧게 기술한 것은 좋지만,   
