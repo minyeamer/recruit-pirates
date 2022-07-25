@@ -1,6 +1,25 @@
 # Recruit Pirates
-- 사람인, 잡코리아, 원티드로부터 채용 정보를 받아오는 서비스
-- 클라이언트 별로 종합한 정보들을 HTML 형식으로 변환해 메일로 전송
+  1. [Introduction](#1-introduction)
+  2. [How to Use](#2-how-to-use)
+  3. [Project Description](#3-project-description)
+  4. [Implementation](#4-implementation)
+  5. [Main Classes](#5-main-classes)
+  6. [Main Methods](#6-main-methods)
+  7. [Input/Output](#7-inputoutput)
+  8. [Error List](#8-error-list)
+  9. [Post-Project](#9-post-project)
+
+---
+
+## 1. Introduction
+- 현대 사회는 플랫폼 시장의 활성화로 온라인 상에 이전과는 비교할 수 없을 수준의 많은 정보가 올라오지만,   
+이와 동시에 플랫폼의 다양화로 인해 이전보다 더 많은 시간을 들이지 않으면 정보의 손실이 발생
+- 구직 플랫폼 역시 마찬가지로 각자의 개성을 가지고 있는 다양한 플랫폼이 존재하지만,   
+모든 회사가 모든 플랫폼을 활용하지는 않기 때문에 모든 채용공고를 확인함에 있어 불편함이 존재
+- 여러 구직 플랫폼으로부터 채용공고를 수집해 요약된 정보를 메일로 알려주는 기능을 기대하고 있지만,   
+짧은 프로젝트 기간에 맞춰 서비스를 완성시키기 위해 수집할 정보에 제한을 두고 진행
+- 직종, 회사명을 키워드로 사람인에서 최신공고를 수집하고, 잡코리아와 원티드로부터 해당 공고와 관련된   
+합격자소서, 기술역량 등의 정보를 추가해 메일로 전송하는 서비스 구현
 
 <br>
 
@@ -8,19 +27,7 @@
 
 ---
 
-## Index
-  1. [How to Use](#1-how-to-use)
-  2. [Project Description](#2-project-description)
-  3. [Implementation](#3-implementation)
-  4. [Main Classes](#4-main-classes)
-  5. [Main Methods](#5-main-methods)
-  6. [Input/Output](#6-inputoutput)
-  7. [Error List](#7-error-list)
-  8. [Restropective](#8-restropective)
-
----
-
-## 1. How to Use
+## 2. How to Use
 - 실제 서비스를 위해선 웹과 연동해야겠지만, 현재는 `run.py` 위에 직접 값을 넣어 실행
 - 관리자 정보 및 API 키는 개인정보 보호를 위해 제외, 해당 부분에 본인 정보 입력
 - 관리자 객체 생성 > 클라이언트 객체 생성 > 채용공고 요청 > 메일 전송 순으로 실행 요망
@@ -28,7 +35,7 @@
 
 ---
 
-## 2. Project Description
+## 3. Project Description
 
 ### Team Name
 > 해적왕 (The Pirate King)
@@ -45,7 +52,7 @@
 
 ---
 
-## 3. Implementation
+## 4. Implementation
 
 ### Languages:
 - Python 3.9.10
@@ -63,7 +70,7 @@
 
 ---
 
-## 4. Main Classes
+## 5. Main Classes
 - `Admin(Person)`: 클라이언트를 관리하고 메일을 보내는 객체
 - `Client(Person, Content)`: 컨텐츠(=채용공고)를 요청하고 저장하는 객체
 - `Content()`: 채용정보를 요청하고 반환하는 기능을 갖고 있는 부모 객체
@@ -73,7 +80,7 @@
 
 ---
 
-## 5. Main Methods
+## 6. Main Methods
 - `request`로 시작하는 메소드는 주로 웹을 통해 데이터를 수집하거나   
   전체적인 크롤링 프로세스를 지휘하는 역할
 - `Content()`에서 `request_contents()`가 `main()` 함수 같은 역할 수행,   
@@ -87,7 +94,7 @@
 
 ---
 
-## 6. Input/Output
+## 7. Input/Output
 
 ### Client Input
 
@@ -186,18 +193,20 @@ wanted.contents = {
 
 ---
 
-## 7. Error List
+## 8. Error List
 
 ### Python Circular Imports
-- 작성 중
+- 부모/자식 객체가 서로를 호출하는 구조로 설계한 것이 원인으로,   
+부모 객체에서 자식 객체를 Import하는 구문을 자식 객체가 필요한 순간 바로 위로 이동
 
 ### Gmail Unsupported Tags
 - [What HTML tags are supported in Gmail?](https://zapier.com/help/doc/what-html-tags-are-supported-in-gmail)
-- 작성 중
+- 에러가 아니라 단순히 Gmail에서 해당 태그를 지원하지 않는다는 것을 인지하고   
+`details` 태그를 `blockquote` 태그로 변경
 
 ---
 
-## 8. Restropective
+## 9. Post-Project
 - [Daily DevBlog](http://daily-devblog.com/)를 벤치마킹하여 처음엔 웹상에서 돌아가는 서비스로 만들고 싶었지만,   
   매우 짧은 프로젝트 기간 동안 만들기엔 무리라 판단하여 기각 (개인적으로라도 구현해볼 것)
 - 재귀함수를 사용하여 채용정보를 HTML로 변환하는 부분을 비교적 짧게 기술한 것은 좋지만,   
